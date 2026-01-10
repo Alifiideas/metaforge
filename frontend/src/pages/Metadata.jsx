@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import RangeSlider from "../components/sliders/RangeSlider";
 import ToggleSwitch from "../components/layout/ToggleSwitch";
 import UploadBox from "../components/upload/UploadBox";
@@ -49,12 +51,7 @@ function Metadata() {
     setDescWords,
   } = usePlatform();
 
-  const {
-    apiKey,
-    setApiKey,
-    plan,
-    tokens,
-  } = useTokens();
+  const { apiKey, setApiKey, plan, tokens } = useTokens();
 
   const {
     files,
@@ -73,7 +70,6 @@ function Metadata() {
 
   /* ================= EFFECTS ================= */
 
-  // Auto-fix CSV format on platform change
   useEffect(() => {
     if (!platform) return;
 
@@ -85,7 +81,6 @@ function Metadata() {
     }
   }, [platform, csvType]);
 
-  // Estimate token usage
   useEffect(() => {
     if (!files.length) {
       setEstimatedTokens(0);
@@ -113,23 +108,17 @@ function Metadata() {
     if (!files.length) return alert("Upload files");
     if (estimatedTokens > tokens) return alert("Not enough tokens");
 
-    await processFiles({
-      files: validatedFiles,
-      apiKey,
-    });
+    await processFiles({ files: validatedFiles, apiKey });
   };
 
   const handleDownload = () => {
-    alert(
-      `CSV (${csvType.toUpperCase()}) export will be connected to backend`
-    );
+    alert(`CSV (${csvType.toUpperCase()}) export will be connected to backend`);
   };
 
   /* ================= UI ================= */
 
   return (
     <div className="metadata-page">
-      {/* ================= SIDEBAR ================= */}
       <aside className="sidebar">
         <h3>Metadata Controls</h3>
 
@@ -180,9 +169,7 @@ function Metadata() {
         </div>
       </aside>
 
-      {/* ================= MAIN ================= */}
       <main className="main">
-        {/* TOP BAR */}
         <div className="top-bar">
           <PlatformSelector
             platforms={PLATFORMS}
@@ -195,17 +182,14 @@ function Metadata() {
           </div>
         </div>
 
-        {/* UPLOAD */}
         <UploadBox
           onUpload={handleFileUpload}
           progress={uploadProgress}
           formats="JPG · PNG · SVG · EPS · MP4"
         />
 
-        {/* FILE PREVIEW */}
         <FilePreview files={files} />
 
-        {/* ACTIONS */}
         <div className="actions">
           <ProcessButton
             onClick={handleProcess}

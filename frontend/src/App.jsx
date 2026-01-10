@@ -29,10 +29,6 @@ function PublicLayout({ children }) {
 }
 
 function App() {
-  /**
-   * 🚀 TEMP STATE
-   * TODO: Move into Context / API
-   */
   const tokens = 50;
   const plan = "Free";
 
@@ -87,13 +83,12 @@ function App() {
 
         {/* ================= DASHBOARD ================= */}
         <Route
-          element={
-            <Layout tokens={tokens} plan={plan} />
-          }
+          path="/"
+          element={<Layout tokens={tokens} plan={plan} />}
         >
-          <Route path="/metadata" element={<Metadata />} />
+          <Route path="metadata" element={<Metadata />} />
           <Route
-            path="/duplicate-detector"
+            path="duplicate-detector"
             element={<DuplicateDetector />}
           />
         </Route>

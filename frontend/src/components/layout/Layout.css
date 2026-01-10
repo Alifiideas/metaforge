@@ -1,6 +1,7 @@
 .layout {
   display: flex;
   min-height: 100vh;
+  width: 100%;
   background: #0f0f14;
   color: #ffffff;
 }
@@ -11,13 +12,16 @@
   margin-left: 260px; /* Sidebar width */
   display: flex;
   flex-direction: column;
+  min-height: 100vh; /* 🔥 REQUIRED */
+  overflow: hidden;
 }
 
 /* PAGE CONTENT */
 .layout-content {
-  padding: 24px;
   flex: 1;
+  padding: 24px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* RESPONSIVE */
@@ -34,5 +38,6 @@
 
   .layout-main {
     margin-left: 0;
+    min-height: 100vh;
   }
 }

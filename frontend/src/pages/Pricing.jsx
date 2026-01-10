@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 function Pricing() {
   const plans = [
     {
+      id: "free",
       name: "FREE",
       price: "$0",
       highlight: false,
@@ -11,11 +12,12 @@ function Pricing() {
         "CSV export",
         "Platform-specific SEO",
         "Compression slider locked",
-        "No AI tools access"
+        "No AI tools access",
       ],
-      cta: "Get Started"
+      cta: "Get Started",
     },
     {
+      id: "bronze",
       name: "BRONZE",
       price: "$2.99 / month",
       highlight: false,
@@ -25,11 +27,12 @@ function Pricing() {
         "Commercial license",
         "Duplicate image detection",
         "Limited file tools",
-        "CSV merger"
+        "CSV merger",
       ],
-      cta: "Choose Bronze"
+      cta: "Choose Bronze",
     },
     {
+      id: "silver",
       name: "SILVER",
       price: "$4.99 / month",
       highlight: true,
@@ -40,11 +43,12 @@ function Pricing() {
         "Image upscaler (600 uses)",
         "Background remover (limited)",
         "Speech generation",
-        "FAST processing"
+        "FAST processing",
       ],
-      cta: "Most Popular"
+      cta: "Most Popular",
     },
     {
+      id: "gold",
       name: "GOLD",
       price: "$7.99 / month",
       highlight: false,
@@ -55,10 +59,10 @@ function Pricing() {
         "Background remover (unlimited)",
         "Image upscaler (800 uses)",
         "Priority processing",
-        "Commercial license"
+        "Commercial license",
       ],
-      cta: "Go Gold"
-    }
+      cta: "Go Gold",
+    },
   ];
 
   return (
@@ -66,7 +70,7 @@ function Pricing() {
       className="page pricing"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="container">
         <h1>Simple, Transparent Pricing</h1>
@@ -75,13 +79,15 @@ function Pricing() {
         </p>
 
         <div className="pricing-grid">
-          {plans.map((plan, i) => (
+          {plans.map((plan) => (
             <motion.div
-              key={i}
+              key={plan.id}
               className={`pricing-card ${
                 plan.highlight ? "highlight" : ""
               }`}
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 220 }}
             >
               {plan.highlight && (
                 <div className="badge">MOST POPULAR</div>
@@ -91,12 +97,15 @@ function Pricing() {
               <div className="price">{plan.price}</div>
 
               <ul>
-                {plan.features.map((feature, idx) => (
-                  <li key={idx}>✔ {feature}</li>
+                {plan.features.map((feature) => (
+                  <li key={feature}>✔ {feature}</li>
                 ))}
               </ul>
 
-              <button className="btn primary">
+              <button
+                className="btn primary"
+                type="button"
+              >
                 {plan.cta}
               </button>
             </motion.div>

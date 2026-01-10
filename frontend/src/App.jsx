@@ -1,47 +1,117 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+/* ================= LAYOUTS ================= */
 import Navbar from "./components/Navbar";
+import Layout from "./components/layout/Layout";
 
+/* ================= PUBLIC PAGES ================= */
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 import Pricing from "./pages/Pricing";
 
-// MetaForge core pages
+/* ================= DASHBOARD PAGES ================= */
 import Metadata from "./pages/Metadata";
 import DuplicateDetector from "./pages/DuplicateDetector";
 
 import "./App.css";
 
+/* ================= PUBLIC LAYOUT ================= */
+
+function PublicLayout({ children }) {
+  return (
+    <>
+      <Navbar />
+      <main>{children}</main>
+    </>
+  );
+}
+
 function App() {
+  /**
+   * 🚀 TEMP STATE
+   * TODO: Move into Context / API
+   */
+  const tokens = 50;
+  const plan = "Free";
+
   return (
     <BrowserRouter>
-      <Navbar />
-
       <Routes>
-        {/* Public Pages */}
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/pricing" element={<Pricing />} />
-
-        {/* MetaForge Core */}
-        <Route path="/metadata" element={<Metadata />} />
+        {/* ================= PUBLIC SITE ================= */}
         <Route
-          path="/duplicate-detector"
-          element={<DuplicateDetector />}
+          path="/"
+          element={
+            <PublicLayout>
+              <Home />
+            </PublicLayout>
+          }
         />
 
-        {/* 404 */}
+        <Route
+          path="/about"
+          element={
+            <PublicLayout>
+              <About />
+            </PublicLayout>
+          }
+        />
+
+        <Route
+          path="/projects"
+          element={
+            <PublicLayout>
+              <Projects />
+            </PublicLayout>
+          }
+        />
+
+        <Route
+          path="/contact"
+          element={
+            <PublicLayout>
+              <Contact />
+            </PublicLayout>
+          }
+        />
+
+        <Route
+          path="/pricing"
+          element={
+            <PublicLayout>
+              <Pricing />
+            </PublicLayout>
+          }
+        />
+
+        {/* ================= DASHBOARD ================= */}
+        <Route
+          element={
+            <Layout tokens={tokens} plan={plan} />
+          }
+        >
+          <Route path="/metadata" element={<Metadata />} />
+          <Route
+            path="/duplicate-detector"
+            element={<DuplicateDetector />}
+          />
+        </Route>
+
+        {/* ================= 404 ================= */}
         <Route
           path="*"
           element={
-            <div style={{ padding: "80px", textAlign: "center" }}>
+            <main
+              style={{
+                padding: "100px",
+                textAlign: "center",
+                color: "#cfd3ff",
+              }}
+            >
               <h1>404</h1>
               <p>Page not found</p>
-            </div>
+            </main>
           }
         />
       </Routes>
@@ -50,5 +120,3 @@ function App() {
 }
 
 export default App;
-
-

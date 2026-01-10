@@ -1,0 +1,93 @@
+/* ===============================
+   CSS VARIABLES / DESIGN TOKENS
+   =============================== */
+
+:root {
+  /* ========== COLORS ========== */
+
+  /* Brand */
+  --color-primary: #4f46e5;     /* Indigo */
+  --color-primary-hover: #4338ca;
+  --color-accent: #22c55e;      /* Green */
+
+  /* Backgrounds */
+  --color-bg: #0f172a;          /* App background */
+  --color-bg-soft: #111827;     /* Cards / panels */
+  --color-bg-muted: #1f2933;    /* Inputs / subtle areas */
+
+  /* Text */
+  --color-text: #e5e7eb;
+  --color-text-muted: #9ca3af;
+  --color-text-inverse: #0f172a;
+
+  /* Borders */
+  --color-border: #1f2937;
+  --color-border-light: #374151;
+
+  /* Status */
+  --color-success: #22c55e;
+  --color-warning: #facc15;
+  --color-error: #ef4444;
+  --color-info: #38bdf8;
+
+  /* ========== TYPOGRAPHY ========== */
+
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Font sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+
+  /* Line heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* ========== SPACING ========== */
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* ========== RADIUS ========== */
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ========== SHADOWS ========== */
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.6);
+
+  /* ========== TRANSITIONS ========== */
+
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* ========== Z-INDEX ========== */
+
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-overlay: 1030;
+  --z-modal: 1040;
+  --z-tooltip: 1050;
+}

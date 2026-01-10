@@ -1,0 +1,27 @@
+.platform-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.platform-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #2c2f36;
+  background: #151821;
+  color: #ccc;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.platform-btn:hover {
+  border-color: #4f8cff;
+  color: #fff;
+}
+
+.platform-btn.active {
+  background: #4f8cff;
+  color: #fff;
+  border-color: #4f8cff;
+}

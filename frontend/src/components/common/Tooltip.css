@@ -1,0 +1,52 @@
+.tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.tooltip-bubble {
+  position: absolute;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  background: #1e1e2f;
+  color: #fff;
+  white-space: nowrap;
+  z-index: 50;
+  opacity: 0;
+  animation: fadeIn 0.15s ease forwards;
+  pointer-events: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Positions */
+.tooltip-bubble.top {
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip-bubble.bottom {
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip-bubble.left {
+  right: 120%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tooltip-bubble.right {
+  left: 120%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}

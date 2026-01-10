@@ -1,0 +1,21 @@
+.download-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 1px solid #2f356a;
+  background: #141a2e;
+  color: #eaeaf0;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.download-btn:hover:not(:disabled) {
+  background: #1b2145;
+  border-color: #6d5cff;
+  transform: translateY(-1px);
+}
+
+.download-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

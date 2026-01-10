@@ -1,0 +1,38 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background: #0f0f14;
+  color: #ffffff;
+}
+
+/* MAIN WRAPPER */
+.layout-main {
+  flex: 1;
+  margin-left: 260px; /* Sidebar width */
+  display: flex;
+  flex-direction: column;
+}
+
+/* PAGE CONTENT */
+.layout-content {
+  padding: 24px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .layout-main {
+    margin-left: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .layout-main {
+    margin-left: 0;
+  }
+}

@@ -1,92 +1,173 @@
-import { useState } from "react";
+import RangeSlider from "../components/sliders/RangeSlider";
+import ToggleSwitch from "../components/layout/ToggleSwitch";
+import UploadBox from "../components/upload/UploadBox";
+import FilePreview from "../components/upload/FilePreview";
+import PlatformSelector from "../components/PlatformSelector";
+import ProcessButton from "../components/buttons/ProcessButton";
+import DownloadButton from "../components/buttons/DownloadButton";
+
 import "./Metadata.css";
 
+import usePlatform from "../hooks/usePlatform";
+import useTokens from "../hooks/useTokens";
+import useUpload from "../hooks/useUpload";
+
+import { estimateTokens } from "../api/metadata.api";
+
+import {
+  CSV_FORMAT_LIST,
+  isCsvSupportedForPlatform,
+} from "../config/csvFormats";
+
+/* ================= CONSTANTS ================= */
+
 const PLATFORMS = [
-  "Shutterstock",
-  "Adobe Stock",
-  "Vecteezy",
-  "Depositphotos",
-  "123RF",
-  "YouTube",
-  "TikTok",
-  "VectorStock",
-  "Freepik",
+  "shutterstock",
+  "adobe_stock",
+  "vecteezy",
+  "depositphoto",
+  "rf123",
+  "youtube",
+  "tiktok",
+  "vectorstock",
+  "freepik",
 ];
 
 function Metadata() {
-  // ====== STATES ======
-  const [platform, setPlatform] = useState("");
-  const [tokens] = useState(50); // FREE PLAN LOCKED
-  const [descEnabled, setDescEnabled] = useState(false);
+  /* ================= HOOKS ================= */
 
-  const [titleRange, setTitleRange] = useState([7, 20]);
-  const [keywordRange, setKeywordRange] = useState([45, 48]);
-  const [descRange, setDescRange] = useState([10, 20]);
+  const {
+    platform,
+    setPlatform,
+    titleWords,
+    setTitleWords,
+    keywordCount,
+    setKeywordCount,
+    descEnabled,
+    setDescEnabled,
+    descWords,
+    setDescWords,
+  } = usePlatform();
 
-  const [files, setFiles] = useState([]);
+  const {
+    apiKey,
+    setApiKey,
+    plan,
+    tokens,
+  } = useTokens();
+
+  const {
+    files,
+    validatedFiles,
+    uploadProgress,
+    processing,
+    metadataReady,
+    handleFileUpload,
+    processFiles,
+  } = useUpload();
+
+  /* ================= LOCAL STATE ================= */
+
   const [csvType, setCsvType] = useState("jpg");
-  const [apiKey, setApiKey] = useState("");
+  const [estimatedTokens, setEstimatedTokens] = useState(0);
 
-  // ====== HANDLERS ======
-  const handleFileUpload = (e) => {
-    setFiles([...e.target.files]);
+  /* ================= EFFECTS ================= */
+
+  // Auto-fix CSV format on platform change
+  useEffect(() => {
+    if (!platform) return;
+
+    if (!isCsvSupportedForPlatform(csvType, platform)) {
+      const firstValid = CSV_FORMAT_LIST.find((f) =>
+        isCsvSupportedForPlatform(f.id, platform)
+      );
+      if (firstValid) setCsvType(firstValid.id);
+    }
+  }, [platform, csvType]);
+
+  // Estimate token usage
+  useEffect(() => {
+    if (!files.length) {
+      setEstimatedTokens(0);
+      return;
+    }
+
+    setEstimatedTokens(
+      estimateTokens({
+        filesCount: files.length,
+        title: { max: titleWords },
+        keywords: { max: keywordCount },
+        description: {
+          enabled: descEnabled,
+          max: descWords,
+        },
+      })
+    );
+  }, [files, titleWords, keywordCount, descWords, descEnabled]);
+
+  /* ================= HANDLERS ================= */
+
+  const handleProcess = async () => {
+    if (!apiKey) return alert("Please connect API key");
+    if (!platform) return alert("Select a platform");
+    if (!files.length) return alert("Upload files");
+    if (estimatedTokens > tokens) return alert("Not enough tokens");
+
+    await processFiles({
+      files: validatedFiles,
+      apiKey,
+    });
   };
 
-  const handlePlatformSelect = (p) => {
-    setPlatform(p);
-
-    // Auto description ON only for platforms that use it
-    const descPlatforms = ["YouTube"];
-    setDescEnabled(descPlatforms.includes(p));
+  const handleDownload = () => {
+    alert(
+      `CSV (${csvType.toUpperCase()}) export will be connected to backend`
+    );
   };
+
+  /* ================= UI ================= */
 
   return (
     <div className="metadata-page">
-      {/* ========== SIDEBAR ========== */}
+      {/* ================= SIDEBAR ================= */}
       <aside className="sidebar">
-        <h3>Metadata Customization</h3>
+        <h3>Metadata Controls</h3>
 
-        <Slider
-          label="Min Title Words"
+        <RangeSlider
+          label="Title Length"
           min={3}
-          max={20}
-          value={titleRange[0]}
-          disabled
-        />
-
-        <Slider
-          label="Max Title Words"
-          min={5}
           max={30}
-          value={titleRange[1]}
-          disabled
+          value={titleWords}
+          disabled={plan === "free"}
+          onChange={setTitleWords}
         />
 
-        <Slider
-          label="Min Keywords"
+        <RangeSlider
+          label="Keywords Count"
           min={10}
-          max={50}
-          value={keywordRange[0]}
-          disabled
-        />
-
-        <Slider
-          label="Max Keywords"
-          min={20}
           max={60}
-          value={keywordRange[1]}
-          disabled
+          value={keywordCount}
+          disabled={plan === "free"}
+          onChange={setKeywordCount}
         />
 
-        <div className="toggle-row">
-          <span>Description</span>
-          <input
-            type="checkbox"
-            checked={descEnabled}
-            disabled
-            readOnly
+        <ToggleSwitch
+          label="Description"
+          checked={descEnabled}
+          disabled={plan === "free"}
+          onChange={() => setDescEnabled((v) => !v)}
+        />
+
+        {descEnabled && (
+          <RangeSlider
+            label="Description Length"
+            min={10}
+            max={200}
+            value={descWords}
+            disabled={plan === "free"}
+            onChange={setDescWords}
           />
-        </div>
+        )}
 
         <div className="api-key">
           <label>API Key</label>
@@ -99,71 +180,68 @@ function Metadata() {
         </div>
       </aside>
 
-      {/* ========== MAIN ========== */}
+      {/* ================= MAIN ================= */}
       <main className="main">
         {/* TOP BAR */}
         <div className="top-bar">
-          <div className="platforms">
-            <span>PLATFORMS:</span>
-            {PLATFORMS.map((p) => (
-              <button
-                key={p}
-                className={platform === p ? "active" : ""}
-                onClick={() => handlePlatformSelect(p)}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
-
-          <div className="tokens">
-            🔋 Tokens: <strong>{tokens}</strong> (Free Plan)
-          </div>
-        </div>
-
-        {/* UPLOAD CARD */}
-        <div className="upload-card">
-          <h2>Choose Files</h2>
-          <p>JPG / JPEG · PNG · SVG · Videos</p>
-
-          <input
-            type="file"
-            multiple
-            onChange={handleFileUpload}
+          <PlatformSelector
+            platforms={PLATFORMS}
+            value={platform}
+            onChange={setPlatform}
           />
 
-          <small>
-            Unlimited metadata • CSV export • Secure processing
-          </small>
+          <div className="tokens">
+            🔋 {tokens} • Est: {estimatedTokens}
+          </div>
         </div>
 
+        {/* UPLOAD */}
+        <UploadBox
+          onUpload={handleFileUpload}
+          progress={uploadProgress}
+          formats="JPG · PNG · SVG · EPS · MP4"
+        />
+
         {/* FILE PREVIEW */}
-        {files.length > 0 && (
-          <div className="file-list">
-            {files.map((file, i) => (
-              <div key={i} className="file-item">
-                {file.name}
-              </div>
-            ))}
-          </div>
-        )}
+        <FilePreview files={files} />
 
         {/* ACTIONS */}
         <div className="actions">
-          <button className="btn process">Process</button>
+          <ProcessButton
+            onClick={handleProcess}
+            loading={processing}
+            disabled={
+              processing ||
+              !apiKey ||
+              !platform ||
+              !files.length ||
+              estimatedTokens > tokens
+            }
+          />
 
           <div className="export">
             <select
               value={csvType}
               onChange={(e) => setCsvType(e.target.value)}
             >
-              <option value="jpg">JPG CSV</option>
-              <option value="eps">EPS CSV</option>
+              {CSV_FORMAT_LIST.map((format) => (
+                <option
+                  key={format.id}
+                  value={format.id}
+                  disabled={
+                    !isCsvSupportedForPlatform(format.id, platform)
+                  }
+                >
+                  {format.label}
+                </option>
+              ))}
             </select>
 
-            <button className="btn download">
-              Download CSV
-            </button>
+            <DownloadButton
+              onClick={handleDownload}
+              disabled={!metadataReady}
+              format={csvType.toUpperCase()}
+            />
           </div>
         </div>
       </main>
@@ -171,20 +249,4 @@ function Metadata() {
   );
 }
 
-// ====== REUSABLE SLIDER ======
-const Slider = ({ label, min, max, value, disabled }) => (
-  <div className="slider">
-    <label>{label}</label>
-    <input
-      type="range"
-      min={min}
-      max={max}
-      value={value}
-      disabled={disabled}
-    />
-    <span>{value}</span>
-  </div>
-);
-
 export default Metadata;
-

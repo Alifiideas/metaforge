@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ================= BASIC META ================= -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>PixcraftAI — AI Metadata Generator for Stock & Creators</title>
+
+  <meta name="description"
+        content="Generate SEO-optimized titles, keywords, and descriptions for stock images & videos. Supports Shutterstock, Adobe Stock, Freepik, YouTube, TikTok & more." />
+
+  <meta name="keywords"
+        content="AI metadata generator, stock image metadata, Shutterstock keywords, Adobe Stock AI, image SEO, video metadata" />
+
+  <meta name="author" content="PixcraftAI" />
+
+  <!-- ================= OPEN GRAPH ================= -->
+  <meta property="og:title" content="PixcraftAI — AI Metadata Generator" />
+  <meta property="og:description"
+        content="Bulk generate platform-optimized metadata for images & videos using AI." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pixcraft.ai" />
+  <meta property="og:image" content="/og-preview.png" />
+
+  <!-- ================= TWITTER ================= -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="PixcraftAI — AI Metadata Generator" />
+  <meta name="twitter:description"
+        content="Generate stock-ready metadata faster, cheaper, smarter." />
+
+  <!-- ================= FAVICONS ================= -->
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- ================= FONTS ================= -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- ================= THEME ================= -->
+  <meta name="theme-color" content="#0b0b0b" />
+
+  <!-- ================= NO FLASH OF WHITE ================= -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #0b0b0b;
+      color: #ffffff;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    #root {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* App loading fallback */
+    .app-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-size: 14px;
+      opacity: 0.6;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ================= REACT ROOT ================= -->
+  <div id="root">
+    <div class="app-loading">
+      Loading PixcraftAI…
+    </div>
+  </div>
+
+  <!-- ================= MAIN ENTRY ================= -->
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

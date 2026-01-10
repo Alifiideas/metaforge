@@ -1,0 +1,64 @@
+.file-preview {
+  margin: 30px 0;
+}
+
+.file-preview h4 {
+  margin-bottom: 14px;
+  color: #cfd3ff;
+}
+
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.file-card {
+  display: flex;
+  gap: 12px;
+  background: #141a2e;
+  border-radius: 14px;
+  padding: 12px;
+  border: 1px solid #242a55;
+}
+
+.file-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: white;
+}
+
+.file-icon.image {
+  background: linear-gradient(135deg, #6d5cff, #4cc9f0);
+}
+
+.file-icon.video {
+  background: linear-gradient(135deg, #ff6a88, #ff9a44);
+}
+
+.file-icon.file {
+  background: #2a2f55;
+}
+
+.file-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.file-name {
+  display: block;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size {
+  font-size: 0.7rem;
+  color: #9aa3ff;
+}

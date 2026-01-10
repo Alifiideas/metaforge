@@ -1,3 +1,10 @@
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
 /* ==============================
    CSS VARIABLES
 ================================ */
@@ -11,6 +18,7 @@
   --text-main: #ffffff;
   --text-muted: #b8b8c2;
 }
+
 
 /* ==============================
    GLOBAL RESET
@@ -65,6 +73,10 @@ a {
   display: flex;
   gap: 22px;
 }
+.nav-link.active {
+  color: var(--accent);
+}
+
 
 .nav-link {
   color: #cfcfd4;

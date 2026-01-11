@@ -1,0 +1,123 @@
+/* ==============================
+   PROJECTS PAGE
+================================ */
+.page.projects {
+  background: radial-gradient(circle at top, #111320, var(--bg-main));
+}
+
+/* ==============================
+   PROJECT GRID
+================================ */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin-top: 50px;
+}
+
+/* ==============================
+   PROJECT CARD
+================================ */
+.project-card {
+  position: relative;
+  background: var(--bg-card-alt);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.35s ease;
+}
+
+.project-card h2 {
+  font-size: 1.35rem;
+  margin-bottom: 12px;
+}
+
+.project-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 26px;
+}
+
+/* Hover Elevation */
+.project-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow:
+    0 25px 60px rgba(79, 107, 255, 0.25),
+    0 0 0 1px rgba(79, 107, 255, 0.15);
+}
+
+/* ==============================
+   BADGES
+================================ */
+.badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 6px 12px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+/* Badge Variants */
+.badge.core {
+  background: linear-gradient(135deg, #4f6bff, #6a5cff);
+  color: #fff;
+}
+
+.badge.tools {
+  background: rgba(255, 255, 255, 0.1);
+  color: #d1d5ff;
+  border: 1px solid var(--border-soft);
+}
+
+.badge.pro {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: #fff;
+}
+
+/* ==============================
+   BUTTON
+================================ */
+.project-card button {
+  align-self: flex-start;
+  padding: 12px 22px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.project-card button:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* ==============================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .projects-grid {
+    gap: 24px;
+  }
+
+  .project-card {
+    padding: 24px;
+  }
+
+  .project-card h2 {
+    font-size: 1.2rem;
+  }
+}

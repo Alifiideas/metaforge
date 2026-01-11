@@ -1,38 +1,47 @@
-/* ================= ROOT ================= */
+/* =========================================================
+   ROOT LAYOUT
+========================================================= */
 .metadata-page {
   display: grid;
   grid-template-columns: 280px 1fr;
   min-height: 100vh;
-  background: radial-gradient(circle at top, #12172a, #0b0f19);
+  background: radial-gradient(circle at top, #141a32, #0b0f19);
   color: #eaeaf0;
   font-family: "Inter", system-ui, sans-serif;
 }
 
-/* ================= SIDEBAR ================= */
+/* =========================================================
+   SIDEBAR
+========================================================= */
 .sidebar {
-  background: linear-gradient(180deg, #0f1324, #0b0f19);
-  padding: 26px 22px;
-  border-right: 1px solid #1f2440;
+  background: linear-gradient(180deg, #0f1326, #0b0f19);
+  padding: 28px 22px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .sidebar h3 {
-  font-size: 1.1rem;
-  margin-bottom: 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: #ffffff;
+  margin-bottom: 8px;
 }
 
-/* ================= SLIDERS ================= */
-.slider {
-  background: #141a2e;
-  padding: 12px;
-  border-radius: 12px;
+/* =========================================================
+   CONTROL CARDS
+========================================================= */
+.slider,
+.toggle-row {
+  background: linear-gradient(180deg, #151b34, #10162a);
+  border-radius: 14px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .slider label {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #b6bbff;
   display: block;
   margin-bottom: 6px;
@@ -44,31 +53,35 @@
 }
 
 .slider span {
-  font-size: 0.75rem;
+  display: block;
+  margin-top: 4px;
+  font-size: 0.7rem;
   color: #9da3ff;
 }
 
-/* ================= TOGGLE ================= */
+/* =========================================================
+   TOGGLE
+========================================================= */
 .toggle-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: #141a2e;
-  padding: 10px 12px;
-  border-radius: 12px;
+  justify-content: space-between;
 }
 
 .toggle-row span {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  color: #d6d9ff;
 }
 
-/* ================= API KEY ================= */
+/* =========================================================
+   API KEY
+========================================================= */
 .api-key {
   margin-top: auto;
 }
 
 .api-key label {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: #9da3ff;
   margin-bottom: 6px;
   display: block;
@@ -76,34 +89,41 @@
 
 .api-key input {
   width: 100%;
-  padding: 10px 12px;
-  border-radius: 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
   border: 1px solid #252b55;
-  background: #1a1f36;
+  background: #151a32;
   color: white;
-  outline: none;
 }
 
 .api-key input:focus {
+  outline: none;
   border-color: #6d5cff;
+  box-shadow: 0 0 0 2px rgba(109, 92, 255, 0.25);
 }
 
-/* ================= MAIN ================= */
+/* =========================================================
+   MAIN AREA
+========================================================= */
 .main {
-  padding: 32px 40px;
+  padding: 32px 42px;
 }
 
-/* ================= TOP BAR ================= */
+/* =========================================================
+   TOP BAR
+========================================================= */
 .top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
+  margin-bottom: 34px;
 }
 
+/* =========================================================
+   PLATFORM SELECTOR
+========================================================= */
 .platforms {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -115,13 +135,13 @@
 }
 
 .platforms button {
-  padding: 6px 14px;
-  border-radius: 20px;
-  background: #1a1f36;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: #161c36;
   color: #cfd3ff;
   border: 1px solid #242a55;
+  font-size: 0.7rem;
   cursor: pointer;
-  font-size: 0.75rem;
   transition: all 0.2s ease;
 }
 
@@ -131,30 +151,36 @@
 
 .platforms button.active {
   background: linear-gradient(135deg, #6d5cff, #4cc9f0);
-  color: white;
+  color: #ffffff;
   border: none;
 }
 
-/* ================= TOKENS ================= */
+/* =========================================================
+   TOKEN BADGE
+========================================================= */
 .tokens {
-  background: #141a2e;
+  background: #151a32;
   padding: 8px 16px;
   border-radius: 999px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   border: 1px solid #242a55;
+  color: #d6d9ff;
 }
 
-/* ================= UPLOAD CARD ================= */
+/* =========================================================
+   UPLOAD CARD
+========================================================= */
 .upload-card {
-  background: linear-gradient(180deg, #141a2e, #10162a);
-  padding: 32px;
+  background: linear-gradient(180deg, #151b34, #10162a);
+  padding: 36px;
   border-radius: 22px;
   text-align: center;
-  margin-bottom: 30px;
-  border: 1px solid #232a55;
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  margin-bottom: 32px;
 }
 
 .upload-card h2 {
+  font-size: 1.4rem;
   margin-bottom: 6px;
 }
 
@@ -164,7 +190,7 @@
 }
 
 .upload-card input {
-  margin: 18px 0;
+  margin: 20px 0;
 }
 
 .upload-card small {
@@ -172,29 +198,34 @@
   color: #7c82d9;
 }
 
-/* ================= FILE LIST ================= */
+/* =========================================================
+   FILE LIST
+========================================================= */
 .file-list {
-  margin-bottom: 30px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px;
+  gap: 12px;
+  margin-bottom: 32px;
 }
 
 .file-item {
-  background: #1a1f36;
-  padding: 12px;
-  border-radius: 12px;
-  font-size: 0.8rem;
+  background: #161c36;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 0.75rem;
   border: 1px solid #242a55;
+  color: #d6d9ff;
 }
 
-/* ================= ACTIONS ================= */
+/* =========================================================
+   ACTIONS
+========================================================= */
 .actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
   flex-wrap: wrap;
+  gap: 16px;
 }
 
 .export {
@@ -203,26 +234,28 @@
 }
 
 select {
-  background: #1a1f36;
+  background: #161c36;
   color: white;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 8px 12px;
   border: 1px solid #242a55;
 }
 
-/* ================= BUTTONS ================= */
+/* =========================================================
+   BUTTONS
+========================================================= */
 .btn {
-  padding: 10px 20px;
-  border-radius: 12px;
+  padding: 12px 22px;
+  border-radius: 14px;
   border: none;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(109, 92, 255, 0.25);
+  box-shadow: 0 10px 30px rgba(109, 92, 255, 0.25);
 }
 
 .btn.process {
@@ -234,4 +267,3 @@ select {
   background: #1f2550;
   color: white;
 }
-

@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import "./Contact.css";
+
 
 function Contact() {
   return (

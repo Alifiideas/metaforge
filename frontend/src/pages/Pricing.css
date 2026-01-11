@@ -1,0 +1,148 @@
+/* ==============================
+   PRICING PAGE
+================================ */
+.page.pricing {
+  background: radial-gradient(circle at top, #111320, var(--bg-main));
+  text-align: center;
+}
+
+/* ==============================
+   PRICING GRID
+================================ */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+  margin-top: 60px;
+}
+
+/* ==============================
+   PRICING CARD
+================================ */
+.pricing-card {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    var(--bg-card-alt),
+    var(--bg-card)
+  );
+  border-radius: var(--radius-lg);
+  padding: 34px 28px 36px;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.35s ease;
+}
+
+/* Card hover */
+.pricing-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow:
+    0 25px 60px rgba(79, 107, 255, 0.25),
+    0 0 0 1px rgba(79, 107, 255, 0.15);
+}
+
+/* ==============================
+   HIGHLIGHT PLAN
+================================ */
+.pricing-card.highlight {
+  border-color: var(--accent);
+  box-shadow:
+    0 30px 80px rgba(79, 107, 255, 0.35),
+    0 0 0 1px rgba(79, 107, 255, 0.25);
+  transform: scale(1.05);
+}
+
+/* Popular Badge */
+.pricing-card .badge {
+  position: absolute;
+  top: -14px;
+  padding: 6px 16px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+  color: #fff;
+}
+
+/* ==============================
+   CONTENT
+================================ */
+.pricing-card h2 {
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+
+.price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 22px;
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent-alt)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==============================
+   FEATURES LIST
+================================ */
+.pricing-card ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.pricing-card li {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.pricing-card li:last-child {
+  border-bottom: none;
+}
+
+/* ==============================
+   BUTTON
+================================ */
+.pricing-card button {
+  margin-top: auto;
+  width: 100%;
+  padding: 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.pricing-card button:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* ==============================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .pricing-grid {
+    gap: 26px;
+  }
+
+  .pricing-card.highlight {
+    transform: none;
+  }
+}

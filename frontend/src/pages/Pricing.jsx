@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import "./Pricing.css";
+
 
 function Pricing() {
   const plans = [

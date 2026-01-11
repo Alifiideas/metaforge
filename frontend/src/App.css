@@ -24,6 +24,7 @@ body,
   --text-muted: #b8b8c2;
 
   --border-soft: rgba(255, 255, 255, 0.08);
+
   --radius-sm: 10px;
   --radius-md: 14px;
   --radius-lg: 18px;
@@ -52,30 +53,6 @@ body {
 a {
   text-decoration: none;
   color: inherit;
-}
-
-/* ==============================
-   LAYOUT HELPERS
-================================ */
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 20px;
-}
-
-.page {
-  padding: 80px 20px;
-}
-
-.page h1 {
-  font-size: 42px;
-  margin-bottom: 12px;
-}
-
-.subtitle {
-  color: var(--text-muted);
-  max-width: 720px;
-  margin-bottom: 50px;
 }
 
 /* ==============================
@@ -125,7 +102,7 @@ button,
   padding: 12px 20px;
   cursor: pointer;
   font-weight: 600;
-  transition: 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .btn.primary {
@@ -134,152 +111,185 @@ button,
 }
 
 .btn.primary:hover {
-  opacity: 0.9;
+  transform: translateY(-1px);
+  opacity: 0.95;
 }
 
-.btn.ghost {
+.btn.secondary {
   background: transparent;
   color: #cfd3ff;
   border: 1px solid #2a2f45;
 }
 
-.btn.large {
-  padding: 14px 26px;
-  font-size: 1rem;
+.btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* ==============================
-   HERO (LANDING)
+   HERO SECTION
 ================================ */
 .hero {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 60px;
   min-height: 90vh;
-  padding: 30px 8%;
+  padding: 40px 8%;
   background: radial-gradient(circle at top, #1a1f36, var(--bg-main));
 }
 
-.hero-content {
-  max-width: 600px;
+/* LEFT */
+.hero-left {
+  max-width: 620px;
 }
 
-.hero-content h1 {
+.hero-left h1 {
   font-size: 3rem;
   line-height: 1.2;
 }
 
-.hero-content p {
+.hero-left h1 span {
+  color: var(--accent);
+}
+
+.hero-left p {
   margin: 20px 0;
-  color: #b6bbff;
+  color: var(--text-muted);
   font-size: 1.1rem;
 }
 
-.hero-buttons {
+.hero-actions {
   display: flex;
-  gap: 15px;
-  margin-top: 30px;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+/* RIGHT – AI VISUAL */
+.hero-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* AI VISUAL CONTAINER */
+.ai-visual {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CENTRAL AI CORE */
+.ai-core {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at top,
+    var(--accent-alt),
+    var(--accent) 60%,
+    #141a3a
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  box-shadow:
+    0 0 30px rgba(79, 107, 255, 0.6),
+    0 0 70px rgba(79, 107, 255, 0.25);
+  z-index: 3;
+}
+
+/* FLOATING BUSINESS CARDS */
+.float-card {
+  position: absolute;
+  padding: 12px 18px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px var(--border-soft);
+  white-space: nowrap;
+}
+
+.card-1 {
+  top: 12%;
+  left: 8%;
+}
+
+.card-2 {
+  top: 18%;
+  right: 10%;
+}
+
+.card-3 {
+  bottom: 18%;
+  left: 12%;
+}
+
+.card-4 {
+  bottom: 10%;
+  right: 14%;
+}
+
+/* GLOW ORBS */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  z-index: 1;
+}
+
+.orb-1 {
+  width: 160px;
+  height: 160px;
+  background: var(--accent);
+  top: 10%;
+  left: 20%;
+}
+
+.orb-2 {
+  width: 220px;
+  height: 220px;
+  background: var(--accent-alt);
+  bottom: 10%;
+  right: 18%;
+}
+
+.orb-3 {
+  width: 120px;
+  height: 120px;
+  background: #2dd4bf;
+  top: 55%;
+  right: 35%;
 }
 
 /* ==============================
-   GRID SECTIONS
+   SECTIONS
 ================================ */
 section {
   padding: 80px 8%;
 }
 
 .platform-grid,
-.feature-grid,
-.tool-grid,
-.projects-grid,
-.pricing-grid,
-.steps,
-.values-grid,
-.contact-grid {
+.tools-grid,
+.steps {
   display: grid;
   gap: 30px;
 }
 
 .platform-grid,
-.feature-grid,
-.tool-grid {
+.tools-grid {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.projects-grid,
-.pricing-grid {
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-}
-
-/* ==============================
-   CARDS
-================================ */
-.platform-card,
-.feature-card,
-.tool-card,
-.project-card,
-.pricing-card,
-.about-card,
-.value-box,
-.contact-info,
-.contact-form {
-  background: var(--bg-card-alt);
-  padding: 28px;
-  border-radius: var(--radius-lg);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
-}
-
-/* ==============================
-   PRICING
-================================ */
-.page.pricing {
-  background: radial-gradient(circle at top, #111320, var(--bg-main));
-  text-align: center;
-}
-
-.pricing-card {
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  position: relative;
-}
-
-.pricing-card.highlight {
-  border-color: var(--accent);
-  box-shadow: 0 0 40px rgba(79, 107, 255, 0.25);
-}
-
-.pricing-card ul {
-  list-style: none;
-  margin: 25px 0;
-}
-
-.pricing-card li {
-  font-size: 14px;
-  margin-bottom: 10px;
-  color: #d5d5df;
-}
-
-/* ==============================
-   CONTACT
-================================ */
-.page.contact {
-  background: linear-gradient(180deg, var(--bg-main), #111320);
-}
-
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 14px;
-  border-radius: var(--radius-sm);
-  border: none;
-  background: #0f1220;
-  color: #fff;
-}
-
-.contact-form input::placeholder,
-.contact-form textarea::placeholder {
-  color: #888;
 }
 
 /* ==============================
@@ -295,21 +305,33 @@ section {
 /* ==============================
    RESPONSIVE
 ================================ */
+@media (max-width: 1024px) {
+  .hero-left h1 {
+    font-size: 2.5rem;
+  }
+}
+
 @media (max-width: 768px) {
-  .navbar {
-    padding: 14px 20px;
-  }
-
-  .nav-center {
-    display: none;
-  }
-
-  .page h1 {
-    font-size: 32px;
-  }
-
   .hero {
     flex-direction: column;
     text-align: center;
+  }
+
+  .hero-right {
+    margin-top: 60px;
+  }
+
+  .ai-visual {
+    height: 320px;
+  }
+
+  .ai-core {
+    width: 90px;
+    height: 90px;
+    font-size: 2.4rem;
+  }
+
+  .hero-actions {
+    justify-content: center;
   }
 }

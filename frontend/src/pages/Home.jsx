@@ -4,82 +4,97 @@ import { Link } from "react-router-dom";
 function Home() {
   return (
     <main className="home">
-     {/* ================= HERO ================= */}
-<section className="hero">
-  {/* LEFT CONTENT */}
-  <motion.div
-    className="hero-left"
-    initial={{ opacity: 0, y: 40 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-  >
-    <h1>
-      AI-Powered <span>Metadata Generator</span> <br />
-      for Creators & Stock Sellers
-    </h1>
+      {/* ================= HERO ================= */}
+      <section className="hero">
+        {/* LEFT CONTENT */}
+        <motion.div
+          className="hero-left"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1>
+            AI-Powered <span>Metadata Generator</span> <br />
+            for Creators & Stock Sellers
+          </h1>
 
-    <p>
-      Generate platform-optimized titles, keywords, and descriptions
-      for images & videos — faster, smarter, and cheaper.
-    </p>
+          <p>
+            Generate platform-optimized titles, keywords, and descriptions
+            for images & videos — faster, smarter, and cheaper.
+          </p>
 
-    <div className="hero-actions">
-      <Link to="/metadata">
-        <button className="btn primary">Get Started Free</button>
-      </Link>
+          <div className="hero-actions">
+            <Link to="/metadata">
+              <button className="btn primary">Get Started Free</button>
+            </Link>
 
-      <Link to="/pricing">
-        <button className="btn secondary">View Pricing</button>
-      </Link>
-    </div>
-  </motion.div>
+            <Link to="/pricing">
+              <button className="btn secondary">View Pricing</button>
+            </Link>
+          </div>
+        </motion.div>
 
-  {/* RIGHT VISUALS */}
-  <div className="hero-right">
-    {/* Upload Card */}
-    <motion.div
-      className="hero-card"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.2 }}
-    >
-      <div className="upload-icon">⬆️</div>
-      <h3>Upload Your Files</h3>
-      <p>Images & Videos supported</p>
+        {/* RIGHT VISUALS (GRAPHICS & ANIMATION ONLY) */}
+        <div className="hero-right">
+          <motion.div
+            className="ai-visual"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {/* Central AI Core */}
+            <motion.div
+              className="ai-core"
+              animate={{ rotate: 360 }}
+              transition={{
+                repeat: Infinity,
+                duration: 20,
+                ease: "linear",
+              }}
+            >
+              🤖
+            </motion.div>
 
-      <button className="btn upload">Choose Files</button>
+            {/* Floating Business Concepts */}
+            <motion.div
+              className="float-card card-1"
+              animate={{ y: [0, -18, 0] }}
+              transition={{ repeat: Infinity, duration: 4 }}
+            >
+              📈 SEO Growth
+            </motion.div>
 
-      <small>
-        Unlimited metadata • CSV export • Secure processing
-      </small>
-    </motion.div>
+            <motion.div
+              className="float-card card-2"
+              animate={{ y: [0, 14, 0] }}
+              transition={{ repeat: Infinity, duration: 5 }}
+            >
+              🧠 AI Analysis
+            </motion.div>
 
-    {/* Animated Metadata Visual */}
-    <div className="hero-visual">
-      <div className="metadata-card card-1">
-        <h4>Title</h4>
-        <p>Modern business meeting</p>
-      </div>
+            <motion.div
+              className="float-card card-3"
+              animate={{ y: [0, -12, 0] }}
+              transition={{ repeat: Infinity, duration: 4.5 }}
+            >
+              🏷️ Smart Metadata
+            </motion.div>
 
-      <div className="metadata-card card-2">
-        <h4>Keywords</h4>
-        <span>business</span>
-        <span>teamwork</span>
-        <span>office</span>
-      </div>
+            <motion.div
+              className="float-card card-4"
+              animate={{ y: [0, 16, 0] }}
+              transition={{ repeat: Infinity, duration: 6 }}
+            >
+              ⚡ Fast Processing
+            </motion.div>
 
-      <div className="metadata-card card-3">
-        <h4>Description</h4>
-        <p>
-          Professional team collaborating in a modern office environment.
-        </p>
-      </div>
-
-      <div className="glow-orb orb-1"></div>
-      <div className="glow-orb orb-2"></div>
-    </div>
-  </div>
-</section>
+            {/* Ambient Glow */}
+            <div className="glow-orb orb-1"></div>
+            <div className="glow-orb orb-2"></div>
+            <div className="glow-orb orb-3"></div>
+          </motion.div>
+        </div>
+      </section>
 
       {/* ================= PLATFORMS ================= */}
       <section className="platforms">
@@ -109,9 +124,7 @@ function Home() {
 
           <div className="step">
             <h3>2. Customize</h3>
-            <p>
-              Control title, keywords & description using smart sliders
-            </p>
+            <p>Control title, keywords & description using smart sliders</p>
           </div>
 
           <div className="step">
@@ -153,9 +166,7 @@ function Home() {
         <p>No credit card required</p>
 
         <Link to="/metadata">
-          <button className="btn primary big">
-            Get Started Free
-          </button>
+          <button className="btn primary big">Get Started Free</button>
         </Link>
       </section>
     </main>
@@ -163,4 +174,3 @@ function Home() {
 }
 
 export default Home;
-

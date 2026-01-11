@@ -7,11 +7,10 @@ function RangeSlider({
   max,
   value,
   unit = "words",
-  disabled = false,
-  onChange
+  onChange,
 }) {
   return (
-    <div className={`range-slider ${disabled ? "disabled" : ""}`}>
+    <div className="range-slider">
       {/* HEADER */}
       <div className="range-header">
         <span className="range-label">{label}</span>
@@ -26,10 +25,9 @@ function RangeSlider({
         min={min}
         max={max}
         value={value}
-        disabled={disabled}
         onChange={(e) => onChange(Number(e.target.value))}
-        whileHover={!disabled ? { scale: 1.02 } : {}}
-        whileTap={!disabled ? { scale: 0.98 } : {}}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
       />
 
       {/* FOOTER */}
@@ -37,13 +35,6 @@ function RangeSlider({
         <span>{min}</span>
         <span>{max}</span>
       </div>
-
-      {/* LOCK OVERLAY */}
-      {disabled && (
-        <div className="range-lock">
-          🔒 Upgrade to unlock
-        </div>
-      )}
     </div>
   );
 }

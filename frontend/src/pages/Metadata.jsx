@@ -8,13 +8,11 @@ import PlatformSelector from "../components/PlatformSelector";
 import ProcessButton from "../components/buttons/ProcessButton";
 import DownloadButton from "../components/buttons/DownloadButton";
 
-
 import usePlatform from "../hooks/usePlatform";
 import useTokens from "../hooks/useTokens";
 import useUpload from "../hooks/useUpload";
 
 import { estimateTokens } from "../api/metadata.api";
-
 import {
   CSV_FORMAT_LIST,
   isCsvSupportedForPlatform,
@@ -34,27 +32,16 @@ const PLATFORMS = [
   "freepik",
 ];
 
+/* ================= COMPONENT ================= */
+
 function Metadata() {
   /* ================= HOOKS ================= */
 
-  const {
-    platform,
-    setPlatform,
-    titleWords,
-    setTitleWords,
-    keywordCount,
-    setKeywordCount,
-    descEnabled,
-    setDescEnabled,
-    descWords,
-    setDescWords,
-  } = usePlatform();
-
-  const { apiKey, setApiKey, plan, tokens } = useTokens();
+  const { platform, setPlatform } = usePlatform();
+  const { apiKey, setApiKey, tokens } = useTokens();
 
   const {
     files,
-    validatedFiles,
     uploadProgress,
     processing,
     metadataReady,
@@ -62,13 +49,24 @@ function Metadata() {
     processFiles,
   } = useUpload();
 
-  /* ================= LOCAL STATE ================= */
+  /* ================= COMPRESSED DEFAULTS ================= */
+
+  const [minTitle, setMinTitle] = useState(4);
+  const [maxTitle, setMaxTitle] = useState(12);
+
+  const [minKeywords, setMinKeywords] = useState(8);
+  const [maxKeywords, setMaxKeywords] = useState(25);
+
+  const [descEnabled, setDescEnabled] = useState(true);
+  const [minDesc, setMinDesc] = useState(6);
+  const [maxDesc, setMaxDesc] = useState(18);
 
   const [csvType, setCsvType] = useState("jpg");
   const [estimatedTokens, setEstimatedTokens] = useState(0);
 
   /* ================= EFFECTS ================= */
 
+  // CSV compatibility
   useEffect(() => {
     if (!platform) return;
 
@@ -80,6 +78,7 @@ function Metadata() {
     }
   }, [platform, csvType]);
 
+  // Token estimation
   useEffect(() => {
     if (!files.length) {
       setEstimatedTokens(0);
@@ -89,74 +88,128 @@ function Metadata() {
     setEstimatedTokens(
       estimateTokens({
         filesCount: files.length,
-        title: { max: titleWords },
-        keywords: { max: keywordCount },
+        title: { min: minTitle, max: maxTitle },
+        keywords: { min: minKeywords, max: maxKeywords },
         description: {
           enabled: descEnabled,
-          max: descWords,
+          min: minDesc,
+          max: maxDesc,
         },
       })
     );
-  }, [files, titleWords, keywordCount, descWords, descEnabled]);
+  }, [
+    files.length,
+    minTitle,
+    maxTitle,
+    minKeywords,
+    maxKeywords,
+    minDesc,
+    maxDesc,
+    descEnabled,
+  ]);
 
   /* ================= HANDLERS ================= */
 
   const handleProcess = async () => {
-    if (!apiKey) return alert("Please connect API key");
+    if (!apiKey) return alert("Please connect your API key");
     if (!platform) return alert("Select a platform");
-    if (!files.length) return alert("Upload files");
-    if (estimatedTokens > tokens) return alert("Not enough tokens");
+    if (!files.length) return alert("Upload files first");
+    if (estimatedTokens > tokens)
+      return alert("Not enough tokens");
 
-    await processFiles({ files: validatedFiles, apiKey });
+    await processFiles({
+      files,
+      apiKey,
+      settings: {
+        title: { min: minTitle, max: maxTitle },
+        keywords: { min: minKeywords, max: maxKeywords },
+        description: {
+          enabled: descEnabled,
+          min: minDesc,
+          max: maxDesc,
+        },
+      },
+    });
   };
 
   const handleDownload = () => {
-    alert(`CSV (${csvType.toUpperCase()}) export will be connected to backend`);
+    alert(
+      `CSV (${csvType.toUpperCase()}) export will be connected to backend`
+    );
   };
 
   /* ================= UI ================= */
 
   return (
     <div className="metadata-page">
+      {/* ================= SIDEBAR ================= */}
       <aside className="sidebar">
         <h3>Metadata Controls</h3>
 
+        {/* TITLE */}
         <RangeSlider
-          label="Title Length"
-          min={3}
-          max={30}
-          value={titleWords}
-          disabled={plan === "free"}
-          onChange={setTitleWords}
+          label="Minimum Title Words"
+          min={2}
+          max={25}
+          value={minTitle}
+          onChange={setMinTitle}
         />
 
         <RangeSlider
-          label="Keywords Count"
-          min={10}
-          max={60}
-          value={keywordCount}
-          disabled={plan === "free"}
-          onChange={setKeywordCount}
+          label="Maximum Title Words"
+          min={minTitle}
+          max={25}
+          value={maxTitle}
+          onChange={setMaxTitle}
         />
 
+        {/* KEYWORDS */}
+        <RangeSlider
+          label="Minimum Keywords"
+          min={5}
+          max={50}
+          unit="keywords"
+          value={minKeywords}
+          onChange={setMinKeywords}
+        />
+
+        <RangeSlider
+          label="Maximum Keywords"
+          min={minKeywords}
+          max={50}
+          unit="keywords"
+          value={maxKeywords}
+          onChange={setMaxKeywords}
+        />
+
+        {/* DESCRIPTION */}
         <ToggleSwitch
           label="Description"
           checked={descEnabled}
-          disabled={plan === "free"}
           onChange={() => setDescEnabled((v) => !v)}
         />
 
         {descEnabled && (
-          <RangeSlider
-            label="Description Length"
-            min={10}
-            max={200}
-            value={descWords}
-            disabled={plan === "free"}
-            onChange={setDescWords}
-          />
+          <>
+            <RangeSlider
+              label="Minimum Description Words"
+              min={5}
+              max={30}
+              value={minDesc}
+              onChange={setMinDesc}
+            />
+
+            <RangeSlider
+              label="Maximum Description Words"
+              min={minDesc}
+              max={30}
+              value={maxDesc}
+              onChange={setMaxDesc}
+            />
+          </>
         )}
 
+        {/* API KEY */}
         <div className="api-key">
           <label>API Key</label>
           <input
@@ -168,6 +221,7 @@ function Metadata() {
         </div>
       </aside>
 
+      {/* ================= MAIN ================= */}
       <main className="main">
         <div className="top-bar">
           <PlatformSelector
@@ -187,6 +241,7 @@ function Metadata() {
           formats="JPG · PNG · SVG · EPS · MP4"
         />
 
+        {/* FILES NEVER RESET */}
         <FilePreview files={files} />
 
         <div className="actions">
@@ -212,7 +267,10 @@ function Metadata() {
                   key={format.id}
                   value={format.id}
                   disabled={
-                    !isCsvSupportedForPlatform(format.id, platform)
+                    !isCsvSupportedForPlatform(
+                      format.id,
+                      platform
+                    )
                   }
                 >
                   {format.label}
@@ -233,3 +291,4 @@ function Metadata() {
 }
 
 export default Metadata;
+

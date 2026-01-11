@@ -97,20 +97,57 @@ function Home() {
       </section>
 
       {/* ================= PLATFORMS ================= */}
-      <section className="platforms">
-        <h2>Optimized for Major Platforms</h2>
+<section className="platforms">
+  <div className="platforms-header">
+    <h2>Built for the Platforms That Matter</h2>
+    <p>
+      MetaForge generates metadata tailored to each platform’s
+      search algorithm and submission standards.
+    </p>
+  </div>
 
-        <div className="platform-grid">
-          <span>Shutterstock</span>
-          <span>Adobe Stock</span>
-          <span>Freepik</span>
-          <span>Vecteezy</span>
-          <span>Depositphotos</span>
-          <span>YouTube</span>
-          <span>TikTok</span>
-          <span>Instagram</span>
-        </div>
-      </section>
+  <div className="platform-grid">
+    <div className="platform-card">
+      <h4>Shutterstock</h4>
+      <p>Optimized keyword density & title structure</p>
+    </div>
+
+    <div className="platform-card">
+      <h4>Adobe Stock</h4>
+      <p>Clean descriptions with AI-ranked keywords</p>
+    </div>
+
+    <div className="platform-card">
+      <h4>Freepik</h4>
+      <p>Balanced metadata for visibility & approval</p>
+    </div>
+
+    <div className="platform-card">
+      <h4>Vecteezy</h4>
+      <p>SEO-ready titles and keyword prioritization</p>
+    </div>
+
+    <div className="platform-card">
+      <h4>Depositphotos</h4>
+      <p>Structured descriptions with smart tagging</p>
+    </div>
+
+    <div className="platform-card">
+      <h4>YouTube & Shorts</h4>
+      <p>High-impact titles, tags & descriptions</p>
+    </div>
+
+    <div className="platform-card">
+      <h4>TikTok</h4>
+      <p>Trend-aware keywords & discoverability boosts</p>
+    </div>
+
+    <div className="platform-card">
+      <h4>Instagram</h4>
+      <p>Hashtag-optimized captions & metadata</p>
+    </div>
+  </div>
+</section>
 
       {/* ================= HOW IT WORKS ================= */}
       <section className="how-it-works">

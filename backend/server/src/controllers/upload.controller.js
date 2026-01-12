@@ -34,9 +34,8 @@ const generateSafeFileName = (originalName) => {
 
 /**
  * POST /api/upload
- * Handles file uploads
  */
-export const uploadFiles = async (req, res) => {
+export const uploadController = async (req, res) => {
   try {
     if (!req.files || !Array.isArray(req.files)) {
       return res.status(400).json({
@@ -50,8 +49,6 @@ export const uploadFiles = async (req, res) => {
     const uploadedFiles = [];
 
     for (const file of req.files) {
-      /* ---------- VALIDATION ---------- */
-
       if (!ALLOWED_MIME_TYPES.includes(file.mimetype)) {
         return res.status(415).json({
           success: false,
@@ -67,14 +64,10 @@ export const uploadFiles = async (req, res) => {
         });
       }
 
-      /* ---------- SAVE FILE ---------- */
-
       const safeName = generateSafeFileName(file.originalname);
       const targetPath = path.join(UPLOAD_DIR, safeName);
 
       fs.writeFileSync(targetPath, file.buffer);
-
-      /* ---------- RESPONSE OBJECT ---------- */
 
       uploadedFiles.push({
         id: safeName,
@@ -92,7 +85,6 @@ export const uploadFiles = async (req, res) => {
     });
   } catch (error) {
     console.error("Upload failed:", error);
-
     return res.status(500).json({
       success: false,
       message: "File upload failed",

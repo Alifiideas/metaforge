@@ -1,50 +1,57 @@
-import limits from "../../shared/constants/limits.json" assert { type: "json" };
+import limits from "../../shared/constants/limits.js";
 
+/* ======================================================
+   TOKEN VALIDATION
+====================================================== */
 
 /**
- * Validate token availability
+ * Validate whether token usage is allowed
  */
-export const validateTokens = ({
+export function validateTokens({
   plan = "free",
-  availableTokens,
-  estimatedTokens,
-}) => {
-  const planLimits = limits[plan];
+  availableTokens = 0,
+  estimatedTokens = 0,
+}) {
+  const planLimits = limits[plan] ?? limits.free;
 
-  if (!planLimits) {
-    throw new Error("Invalid plan");
+  if (estimatedTokens <= 0) {
+    return {
+      allowed: false,
+      message: "Invalid token estimate",
+    };
   }
 
   if (estimatedTokens > availableTokens) {
     return {
       allowed: false,
-      message: "Not enough tokens",
+      message: "Not enough tokens available",
     };
   }
 
-  if (estimatedTokens > planLimits.maxTokensPerRequest) {
+  if (estimatedTokens > planLimits.monthlyTokens) {
     return {
       allowed: false,
-      message: "Request exceeds plan limits",
+      message: "Token usage exceeds plan allowance",
     };
   }
 
   return {
     allowed: true,
   };
-};
+}
+
+/* ======================================================
+   TOKEN CONSUMPTION
+====================================================== */
 
 /**
- * Deduct tokens after processing
+ * Deduct tokens after successful processing
  */
-export const consumeTokens = ({
-  tokensUsed,
-  currentBalance,
-}) => {
-  const remaining = Math.max(
-    currentBalance - tokensUsed,
-    0
-  );
+export function consumeTokens({
+  tokensUsed = 0,
+  currentBalance = 0,
+}) {
+  if (tokensUsed <= 0) return currentBalance;
 
-  return remaining;
-};
+  return Math.max(currentBalance - tokensUsed, 0);
+}

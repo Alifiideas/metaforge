@@ -5,19 +5,7 @@ import {
 
 const router = express.Router();
 
-/**
- * POST /api/metadata/generate
- * Body:
- * {
- *   files: [],
- *   platform: string,
- *   limits: {},
- *   format: string
- * }
- */
-router.post(
-  "/generate",
-  generateMetadataController
-);
+router.post("/generate", generateMetadataController);
 
 export default router;
+

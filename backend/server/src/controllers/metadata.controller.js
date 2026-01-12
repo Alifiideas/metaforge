@@ -1,12 +1,14 @@
 import { buildPrompt } from "../utils/promptBuilder.js";
 import { generateMetadataFromAI } from "../services/ai.service.js";
-import { enforceLimits } from "../services/token.service.js";
+import {
+  validateTokens,
+  consumeTokens,
+} from "../services/token.service.js";
 
 /**
  * POST /api/metadata/generate
- * Generate metadata for uploaded files
  */
-export const generateMetadata = async (req, res) => {
+export const generateMetadataController = async (req, res) => {
   try {
     const {
       files,
@@ -16,9 +18,7 @@ export const generateMetadata = async (req, res) => {
       availableTokens = 0,
     } = req.body;
 
-    /* ================= VALIDATION ================= */
-
-    if (!files || !Array.isArray(files) || files.length === 0) {
+    if (!Array.isArray(files) || files.length === 0) {
       return res.status(400).json({
         success: false,
         message: "No files provided",
@@ -32,38 +32,35 @@ export const generateMetadata = async (req, res) => {
       });
     }
 
-    if (!options) {
+    if (!options || typeof options !== "object") {
       return res.status(400).json({
         success: false,
         message: "Metadata options missing",
       });
     }
 
-    /* ================= LIMIT ENFORCEMENT ================= */
+    const estimatedTokens =
+      files.length *
+      (options.titleWords +
+        options.keywordsCount +
+        (options.descriptionWords || 0));
 
-    const tokenUsage = enforceLimits({
-      filesCount: files.length,
-      options,
+    const tokenCheck = validateTokens({
       plan: userPlan,
+      availableTokens,
+      estimatedTokens,
     });
 
-    if (tokenUsage.requiredTokens > availableTokens) {
+    if (!tokenCheck.allowed) {
       return res.status(403).json({
         success: false,
-        message: "Not enough tokens",
-        required: tokenUsage.requiredTokens,
+        message: tokenCheck.message,
+        required: estimatedTokens,
         available: availableTokens,
       });
     }
 
-    /* ================= PROMPT BUILDING ================= */
-
-    const prompt = buildPrompt({
-      platform,
-      options,
-    });
-
-    /* ================= AI GENERATION ================= */
+    const prompt = buildPrompt({ platform, options });
 
     const metadata = await generateMetadataFromAI({
       prompt,
@@ -71,17 +68,20 @@ export const generateMetadata = async (req, res) => {
       options,
     });
 
-    /* ================= RESPONSE ================= */
+    const remainingTokens = consumeTokens({
+      tokensUsed: estimatedTokens,
+      currentBalance: availableTokens,
+    });
 
     return res.json({
       success: true,
       platform,
-      usedTokens: tokenUsage.requiredTokens,
+      usedTokens: estimatedTokens,
+      remainingTokens,
       metadata,
     });
   } catch (error) {
     console.error("Metadata generation failed:", error);
-
     return res.status(500).json({
       success: false,
       message: "Metadata generation failed",

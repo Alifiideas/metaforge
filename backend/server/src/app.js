@@ -39,7 +39,7 @@ app.use(morgan("dev"));
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 300,                // max requests per IP
+    max: 300, // max requests per IP
     standardHeaders: true,
     legacyHeaders: false,
   })
@@ -48,6 +48,15 @@ app.use(
 /* ======================================================
    ROUTES
 ====================================================== */
+
+// Root route (✅ FIXES "Route not found" on /)
+app.get("/", (req, res) => {
+  res.status(200).json({
+    name: "Metaforge API",
+    status: "running",
+    env: process.env.NODE_ENV,
+  });
+});
 
 // Health check
 app.get("/health", (req, res) => {
@@ -84,3 +93,4 @@ app.use((err, req, res, next) => {
 });
 
 export default app;
+

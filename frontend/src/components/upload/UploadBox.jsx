@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "./UploadBox.css";
 
 function UploadBox({
@@ -9,12 +9,32 @@ function UploadBox({
   formats,
 }) {
   const inputRef = useRef(null);
+  const [selectedCount, setSelectedCount] = useState(0);
+
+  /* ================= FILE SELECT ================= */
 
   const handleChange = (e) => {
     const files = Array.from(e.target.files);
     if (!files.length) return;
 
-    onFilesSelected(files); // ✅ STORE FILES
+    setSelectedCount(files.length);
+    onFilesSelected(files);
+
+    // allow re-selecting same files
+    e.target.value = null;
+  };
+
+  /* ================= DRAG & DROP ================= */
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    if (uploading) return;
+
+    const files = Array.from(e.dataTransfer.files);
+    if (!files.length) return;
+
+    setSelectedCount(files.length);
+    onFilesSelected(files);
   };
 
   return (
@@ -22,31 +42,43 @@ function UploadBox({
       <h2>Upload Files</h2>
       <div className="formats">{formats}</div>
 
-      <label className="upload-area">
+      {/* DROP AREA */}
+      <label
+        className={`upload-area ${uploading ? "disabled" : ""}`}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={handleDrop}
+      >
         <input
           ref={inputRef}
           type="file"
           multiple
           hidden
+          disabled={uploading}
           onChange={handleChange}
         />
 
         <div className="upload-inner">
           <span className="upload-icon">📤</span>
           <span className="upload-text">
-            Click to select files
+            Click or drag files here
           </span>
+
+          {selectedCount > 0 && (
+            <span className="upload-count">
+              {selectedCount} file
+              {selectedCount > 1 ? "s" : ""} selected
+            </span>
+          )}
         </div>
       </label>
 
       {/* UPLOAD BUTTON */}
       <button
-        className="btn primary"
-        disabled={uploading}
+        className="upload-btn"
         onClick={onUpload}
-        style={{ marginTop: 16 }}
+        disabled={uploading || selectedCount === 0}
       >
-        {uploading ? "Uploading..." : "Upload Files"}
+        {uploading ? "Uploading…" : "Upload Files"}
       </button>
 
       {/* PROGRESS */}
@@ -60,9 +92,11 @@ function UploadBox({
         </div>
       )}
 
-      <small className="upload-note">
-        Drag & drop or click to select files
-      </small>
+      {uploading && (
+        <small className="upload-note">
+          ⏳ Uploading files…
+        </small>
+      )}
     </div>
   );
 }

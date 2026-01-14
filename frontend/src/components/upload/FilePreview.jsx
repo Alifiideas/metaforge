@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import "./FilePreview.css";
 
-function FilePreview({ files = [] }) {
+function FilePreview({
+  files = [],
+  onRemoveFiles,
+  onClearAll,
+}) {
   const [previews, setPreviews] = useState([]);
+  const [selected, setSelected] = useState(new Set());
+
+  /* ================= MAP FILES ================= */
 
   useEffect(() => {
     if (!files.length) {
       setPreviews([]);
+      setSelected(new Set());
       return;
     }
 
@@ -14,7 +22,6 @@ function FilePreview({ files = [] }) {
       const type = getFileType(file);
 
       let src = null;
-
       if (file instanceof File) {
         src = URL.createObjectURL(file);
       } else if (file.path || file.url) {
@@ -22,7 +29,7 @@ function FilePreview({ files = [] }) {
       }
 
       return {
-        id: file.filename || file.name || index,
+        id: file.id || file.filename || file.name || index,
         name: file.name || file.originalName || file.filename,
         size: file.size,
         type,
@@ -43,20 +50,73 @@ function FilePreview({ files = [] }) {
 
   if (!previews.length) return null;
 
+  /* ================= SELECTION ================= */
+
+  const toggleSelect = (id) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const removeSelected = () => {
+    onRemoveFiles?.(Array.from(selected));
+    setSelected(new Set());
+  };
+
+  /* ================= UI ================= */
+
   return (
     <div className="file-preview">
-      <h4>Uploaded Files</h4>
+      <div className="preview-header">
+        <h4>Uploaded Files ({previews.length})</h4>
+
+        <div className="preview-actions">
+          {selected.size > 0 && (
+            <button
+              className="btn danger"
+              onClick={removeSelected}
+            >
+              🗑 Remove ({selected.size})
+            </button>
+          )}
+
+          <button
+            className="btn ghost"
+            onClick={onClearAll}
+          >
+            Clear All
+          </button>
+        </div>
+      </div>
 
       <div className="file-grid">
         {previews.map((file) => (
-          <div key={file.id} className="file-card">
+          <div
+            key={file.id}
+            className={`file-card ${
+              selected.has(file.id) ? "selected" : ""
+            }`}
+            onClick={() => toggleSelect(file.id)}
+          >
+            {/* CHECKBOX */}
+            <div className="file-check">
+              <input
+                type="checkbox"
+                checked={selected.has(file.id)}
+                readOnly
+              />
+            </div>
+
+            {/* PREVIEW */}
             <div className="file-thumb">
               {file.type === "image" && file.src && (
                 <img src={file.src} alt={file.name} />
               )}
 
               {file.type === "video" && file.src && (
-                <video src={file.src} controls />
+                <video src={file.src} />
               )}
 
               {file.type === "file" && (
@@ -64,6 +124,7 @@ function FilePreview({ files = [] }) {
               )}
             </div>
 
+            {/* INFO */}
             <div className="file-info">
               <span className="file-name" title={file.name}>
                 {file.name}
@@ -79,7 +140,7 @@ function FilePreview({ files = [] }) {
   );
 }
 
-/* HELPERS */
+/* ================= HELPERS ================= */
 
 const getFileType = (file) => {
   if (file?.type?.startsWith("image/")) return "image";
@@ -95,4 +156,5 @@ const formatSize = (bytes) => {
 };
 
 export default FilePreview;
+
 

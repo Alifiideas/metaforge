@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./Metadata.css"; // ✅ FIXED
 
 import RangeSlider from "../components/sliders/RangeSlider";
 import ToggleSwitch from "../components/layout/ToggleSwitch";
@@ -38,7 +39,7 @@ function Metadata() {
   /* ================= HOOKS ================= */
 
   const { platform, setPlatform } = usePlatform();
-  const { apiKey, setApiKey, tokens } = useTokens();
+  const { tokens } = useTokens();
 
   const {
     files,
@@ -46,8 +47,11 @@ function Metadata() {
     uploading,
     uploaded,
     error,
+    message,          // ✅ success message
     selectFiles,
     upload,
+    removeFiles,
+    clearFiles,
   } = useUpload();
 
   /* ================= STATE ================= */
@@ -67,6 +71,7 @@ function Metadata() {
 
   /* ================= EFFECTS ================= */
 
+  // CSV compatibility
   useEffect(() => {
     if (!platform) return;
 
@@ -78,6 +83,7 @@ function Metadata() {
     }
   }, [platform, csvType]);
 
+  // Token estimation
   useEffect(() => {
     if (!files.length) {
       setEstimatedTokens(0);
@@ -110,24 +116,20 @@ function Metadata() {
   /* ================= HANDLERS ================= */
 
   const handleUpload = async () => {
-    if (!apiKey) return alert("Please connect your API key");
-    await upload({ apiKey });
+    await upload();
   };
 
-  const handleProcess = async () => {
+  const handleProcess = () => {
     if (!uploaded) return alert("Upload files first");
     if (!platform) return alert("Select a platform");
     if (estimatedTokens > tokens)
       return alert("Not enough tokens");
 
     alert("✅ Ready to process metadata");
-    // Metadata API call goes here next
   };
 
   const handleDownload = () => {
-    alert(
-      `CSV (${csvType.toUpperCase()}) export will be connected`
-    );
+    alert(`CSV (${csvType.toUpperCase()}) export coming soon`);
   };
 
   /* ================= UI ================= */
@@ -197,16 +199,6 @@ function Metadata() {
             />
           </>
         )}
-
-        <div className="api-key">
-          <label>API Key</label>
-          <input
-            type="password"
-            placeholder="Connect your API key"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-          />
-        </div>
       </aside>
 
       {/* ================= MAIN ================= */}
@@ -231,15 +223,20 @@ function Metadata() {
           formats="JPG · PNG · SVG · EPS · MP4"
         />
 
-        {uploaded && (
-          <p className="upload-success">
-            ✅ Files uploaded successfully
-          </p>
+        {/* ✅ STATUS MESSAGES */}
+        {message && (
+          <p className="upload-success">{message}</p>
         )}
 
-        {error && <p className="error">{error}</p>}
+        {error && (
+          <p className="error">{error}</p>
+        )}
 
-        <FilePreview files={files} />
+        <FilePreview
+          files={files}
+          onRemoveFiles={removeFiles}
+          onClearAll={clearFiles}
+        />
 
         <div className="actions">
           <ProcessButton

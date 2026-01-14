@@ -1,70 +1,160 @@
+/* ================= ROOT ================= */
+
 .file-preview {
-  margin-top: 32px;
+  margin-top: 24px;
+  background: linear-gradient(180deg, #0f1530, #0b1025);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(109, 92, 255, 0.15);
 }
 
-.file-preview h4 {
-  margin-bottom: 14px;
+/* ================= HEADER ================= */
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.preview-header h4 {
   font-size: 1rem;
-  color: #cfd3ff;
+  font-weight: 600;
+  color: #e6e9ff;
 }
 
-/* GRID */
+.preview-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ================= BUTTONS ================= */
+
+.btn {
+  padding: 8px 14px;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: #9aa3ff;
+  border: 1px solid rgba(154, 163, 255, 0.3);
+}
+
+.btn.ghost:hover {
+  background: rgba(154, 163, 255, 0.08);
+}
+
+.btn.danger {
+  background: linear-gradient(135deg, #ff4d6d, #ff7a90);
+  color: #fff;
+}
+
+.btn.danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(255, 77, 109, 0.35);
+}
+
+/* ================= GRID ================= */
+
 .file-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 16px;
 }
 
-/* CARD */
+/* ================= CARD ================= */
+
 .file-card {
-  background: #121735;
-  border-radius: 14px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #22286a;
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.02)
+  );
+  border-radius: 16px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* THUMB */
+.file-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.file-card.selected {
+  border-color: #6d5cff;
+  box-shadow: 0 0 0 2px rgba(109, 92, 255, 0.35);
+  background: linear-gradient(
+    180deg,
+    rgba(109, 92, 255, 0.25),
+    rgba(109, 92, 255, 0.12)
+  );
+}
+
+/* ================= CHECKBOX ================= */
+
+.file-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.file-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: #6d5cff;
+  cursor: pointer;
+}
+
+/* ================= PREVIEW ================= */
+
 .file-thumb {
-  height: 160px;
-  background: #0c1028;
+  height: 110px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0c1022;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  margin-bottom: 10px;
 }
 
-/* IMAGE FIX */
-.file-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 🔥 THIS FIXES YOUR ISSUE */
-}
-
-/* VIDEO */
+.file-thumb img,
 .file-thumb video {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* FILE ICON */
 .file-icon {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 700;
   color: #9aa3ff;
+  border: 1px dashed rgba(154, 163, 255, 0.4);
+  padding: 8px 12px;
+  border-radius: 999px;
 }
 
-/* INFO */
+/* ================= INFO ================= */
+
 .file-info {
-  padding: 10px 12px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .file-name {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
@@ -73,6 +163,14 @@
 
 .file-size {
   font-size: 0.7rem;
-  color: #8a90ff;
+  color: #9aa3ff;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 600px) {
+  .file-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
 }
 

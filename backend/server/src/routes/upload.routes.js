@@ -9,19 +9,15 @@ const router = express.Router();
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 50 * 1024 * 1024, // 50MB (matches controller)
+    fileSize: 50 * 1024 * 1024, // 50MB
   },
 });
 
 /**
  * POST /api/upload
- * Order matters:
- * 1️⃣ authMiddleware (API key check)
- * 2️⃣ multer (parse files)
- * 3️⃣ controller
  */
 router.post(
-  "/",
+  "/upload",
   authMiddleware,
   upload.array("files"),
   uploadController

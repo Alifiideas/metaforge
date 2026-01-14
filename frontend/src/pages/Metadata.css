@@ -1,0 +1,25 @@
+.upload-success {
+  margin-top: 12px;
+  color: #6dffb3;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.upload-error {
+  margin-top: 12px;
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.upload-info {
+  margin-top: 12px;
+  color: #9aa3ff;
+  font-size: 0.85rem;
+}
+
+.upload-hint {
+  margin-top: 12px;
+  color: #cfd3ff;
+  font-size: 0.8rem;
+}
